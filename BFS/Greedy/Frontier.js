@@ -10,6 +10,8 @@
 //
 // Adapated from Algorithms 4th, Ed. minimum priority queues
 
+// TODO: Rename hammingDist to heuristicVal
+// TODO: Consider adding a clear() function to empty PQ
 // nodes contain - current board, heurisitc value, and previous board
 var frontier = {
 	MinPQ : [],

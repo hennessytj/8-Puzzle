@@ -25,19 +25,22 @@
 // Variables with global scope
 // Puzzle of size 9 is really a 3x3 board
 var PuzzleSize = 9;
+
 // Board configurations represent state
 var goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 var init = [2, 4, 3, 1, 0, 6, 7, 5, 8];
-// States already explored
+
 var exploredStates = [];
 
 // Search functions
 // ----------------
 // printBoard -> takes a board and prints it out neatly
+// TODO: Make scalable to any N-Puzzle
 function printBoard(board) {
 	console.log(board[0] + " " + board[1] + " " + board[2]);
 	console.log(board[3] + " " + board[4] + " " + board[5]);
 	console.log(board[6] + " " + board[7] + " " + board[8]);
+	console.log();
 }
 
 // computeHammingDistance -> takes a board configuration and determines
@@ -51,6 +54,12 @@ function computeHammingDistance(board) {
 	return count;
 }
 
+// TODO: Manhattan Distance function
+function computeManhattanDistance(board) {
+	// Compute actual number of moves each
+	// tile is out of place
+}
+
 // isGoalState -> takes board (aka state) and returns true if it is goal state otherwise false
 function isGoalState(board) {
 	return computeHammingDistance(board) === 0;
@@ -58,6 +67,7 @@ function isGoalState(board) {
 
 // makeNode -> takes current board configuration, hamming distance, and previous board configuration
 // and stores those values into a node object
+// TODO: rename hammingDist property to heuristicValue
 function makeNode(currentBoard, previousBoard) {
 	return newNode = {
 		currBoard : currentBoard,
@@ -76,6 +86,7 @@ function findTilePosition(board, tile) {
 	}
 	return -1; // Tile not found
 }
+
 // swap -> exchange two elements
 // Adapated from Dr. Graham CSC 447 AI
 function swap(board, i, j) {
@@ -89,6 +100,8 @@ function swap(board, i, j) {
 // isIdentical -> compares two boards
 function isIdentical(board1, board2) {
 	if (board1 === null || board2 === null) return false;
+	if (board1 === undefined ||
+	    board2 === undefined)				return false;
 	if (board1.length !== board2.length)    return false;
 	for (var i = 0; i < board1.length; i++) {
 		if (board1[i] !== board2[i]) 		return false;
@@ -105,12 +118,11 @@ function isSolvable(board) {
 }
 
 function inExplored(board) {
-	var result = false;
-	if (exploredStates.length === 0) result = false;
-	// If any states are matched result = true
+	if (exploredStates.length === 0) return false;
+	// If a state is matched return true
 	for (var i = 0; i < exploredStates.length; i++)
-		if (isIdentical(exploredStates[i], board)) result = true;
-	return result;
+		if (isIdentical(exploredStates[i], board)) return true;
+	return false;
 }
 
 // expand -> take a board and generate all neighbor states (i.e., board configurations)
@@ -162,26 +174,20 @@ function GRAPH-SEARCH(problem) returns a solution, or failure
    expand the chosen node, adding the resulting nodes to the frontier
     only if not in the frontier or explored set
 ****************************************************************************/
-// bestFirstSearch -> general tree search algorithm adapted to BFS
+// bestFirstSearch -> general search algorithm adapted to BFS
 // problem is the initial state (aka board configuration)
 function bestFirstSearch(problem) {
 	if (!isSolvable(problem)) {
 		console.log("Unsolvable!");
 		process.exit(0);
 	}
-	// Takes initial state (aka problem) makes it a node and inserts it into the frontier
 	frontier.insert(makeNode(problem, null));
 	while (!frontier.isEmpty()) {
-		// remove node from frontier
 		var node = frontier.remove();
-		// prevent tons of duplicate states
 		if (inExplored(node.currBoard)) continue;
 		printBoard(node.currBoard);
-		console.log();
-		// keep track of states already generated
 		exploredStates.push(node.currBoard);
 		if (isGoalState(node.currBoard)) return true;
-		// expand node, add each new neighboring node to frontier
 		addNeighborsToFrontier(node.currBoard);
 	}
 	return false;
