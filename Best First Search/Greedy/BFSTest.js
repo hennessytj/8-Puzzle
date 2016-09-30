@@ -63,4 +63,7 @@ var boolRes = inExplored([1,2,3,4,5,6,7,8,0]);
 console.log(boolRes);
 boolRes = inExplored([2,1,3,4,5,6,7,8,0]);
 console.log(boolRes);
+
+// Test isSolvable
+console.log(isSolvable([2,1,3,4,5,6,7,8,0]));
 */

@@ -110,15 +110,19 @@ function isIdentical(board1, board2) {
 }
 
 function isSolvable(board) {
-	// Determine total number of inversions
-	// if num of inversions is even return true
-	// else return false
-	// For now assume true
-	return true;
+	var inversionCount = 0;
+	var n = board.length;
+	for (var i = 0; i < n - 1; i++) {
+		for (var j = i + 1; j < n; j++) {
+			if (board[i] === 0 || board[j] === 0) continue;
+			if (board[i] > board[j]) inversionCount++;
+		}
+	}
+	// Only solvable when num of inversions is even multiple
+	return (inversionCount % 2) === 0;
 }
 
 function inExplored(board) {
-	if (exploredStates.length === 0) return false;
 	// If a state is matched return true
 	for (var i = 0; i < exploredStates.length; i++)
 		if (isIdentical(exploredStates[i], board)) return true;
@@ -176,6 +180,8 @@ function GRAPH-SEARCH(problem) returns a solution, or failure
 ****************************************************************************/
 // bestFirstSearch -> general search algorithm adapted to BFS
 // problem is the initial state (aka board configuration)
+// TODO: Add num states and num of iterations to assist with comparing against
+//       other search strategies and heuristics
 function bestFirstSearch(problem) {
 	if (!isSolvable(problem)) {
 		console.log("Unsolvable!");
@@ -194,5 +200,5 @@ function bestFirstSearch(problem) {
 }
 
 // Test BFS function
-var solutionFound = bestFirstSearch(init);
-console.log(solutionFound);
+bestFirstSearch(init);
+
