@@ -10,8 +10,6 @@
 //
 // Adapated from Algorithms 4th, Ed. minimum priority queues
 
-// TODO: Rename hammingDist to heuristicVal
-// TODO: Consider adding a clear() function to empty PQ
 // nodes contain - current board, heurisitc value, and previous board
 var frontier = {
 	MinPQ : [],
@@ -21,13 +19,13 @@ var frontier = {
 	isEmpty : function() { 
 		return this.N === 0; 
 	},
-	insert : function(value) {
+	insert : function(node) {
 		// N is index of current last element
 		// increment N to add new element
 		this.N++;
 		// insert new element at N, N again
 		// is index of current last element
-        this.MinPQ[this.N] = value;
+        this.MinPQ[this.N] = node;
 		// Ensure heap order is maintained
         this.swim(this.N);
 	},
@@ -59,7 +57,7 @@ var frontier = {
         {
 			// The larger the hamming distance the lower the priority
 			// If the child's hamming distance is larger sub heap is heap ordered
-			if (this.MinPQ[child].hammingDist > this.MinPQ[parent].hammingDist) {
+			if (this.MinPQ[child].heuristic > this.MinPQ[parent].heuristic) {
 				break;
 			}
             // child is smaller -> promote child above parent
@@ -78,10 +76,10 @@ var frontier = {
         { 
             // condition a: short circuit if child + 1 will be out of range of N
             // condition b: ensure the swapped child is smaller of the two
-            if (child < this.N && (this.MinPQ[child + 1].hammingDist < this.MinPQ[child].hammingDist)) child++;
+            if (child < this.N && (this.MinPQ[child + 1].heuristic < this.MinPQ[child].heuristic)) child++;
             // make sure smallest sibling is smaller than parent before swapping
             // with parent, i.e., if child is not less than parent we are done
-            if (this.MinPQ[parent].hammingDist < this.MinPQ[child].hammingDist) break;
+            if (this.MinPQ[parent].heuristic < this.MinPQ[child].heuristic) break;
             this.promote(child, parent);
             // extra code but intent is to make it more readable
             // if child and parent swapped, child becomes parent

@@ -30,6 +30,13 @@ var PuzzleSize = 9;
 var goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 var init = [2, 4, 3, 1, 0, 6, 7, 5, 8];
 
+/*  
+    Initial         Goal
+    2 4 3           1 2 3
+    1 0 6    ==>    4 5 6
+    7 5 8           7 8 0
+*/
+
 var exploredStates = [];
 
 // Search functions
@@ -43,39 +50,6 @@ function printBoard(board) {
 	console.log();
 }
 
-// computeHammingDistance -> takes a board configuration and determines
-// the total number of tiles out of place, including zero
-// Inspired by Dr. Graham CSC 447 AI
-function computeHammingDistance(board) {
-	var count = 0;
-	for (var i = 0; i < PuzzleSize; i++) {
-		if (board[i] !== goal[i]) count++;
-	}
-	return count;
-}
-
-// TODO: Manhattan Distance function
-function computeManhattanDistance(board) {
-	// Compute actual number of moves each
-	// tile is out of place
-}
-
-// isGoalState -> takes board (aka state) and returns true if it is goal state otherwise false
-function isGoalState(board) {
-	return computeHammingDistance(board) === 0;
-}
-
-// makeNode -> takes current board configuration, hamming distance, and previous board configuration
-// and stores those values into a node object
-// TODO: rename hammingDist property to heuristicValue
-function makeNode(currentBoard, previousBoard) {
-	return newNode = {
-		currBoard : currentBoard,
-		prevBoard : previousBoard,
-		hammingDist : computeHammingDistance(currentBoard)	
-	};
-}
-
 // findTilePosition -> find tile in board
 // Adapated from Dr. Graham CSC 447 AI
 function findTilePosition(board, tile) {
@@ -85,6 +59,21 @@ function findTilePosition(board, tile) {
 		}
 	}
 	return -1; // Tile not found
+}
+
+// isGoalState -> takes board (aka state) and returns true if it is goal state otherwise false
+function isGoalState(board) {
+	return computeHammingDistance(board) === 0;
+}
+
+// makeNode -> takes current board configuration, hamming distance, and previous board configuration
+// and stores those values into a node object
+function makeNode(currentBoard, previousBoard) {
+	return newNode = {
+		currBoard : currentBoard,
+		prevBoard : previousBoard,
+		heuristic : computeHammingDistance(currentBoard)	
+	};
 }
 
 // swap -> exchange two elements
