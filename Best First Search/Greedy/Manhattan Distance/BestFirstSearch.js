@@ -88,12 +88,11 @@ function swap(board, i, j) {
 
 // isIdentical -> compares two boards
 function isIdentical(board1, board2) {
-	if (board1 === null || board2 === null) return false;
-	if (board1 === undefined ||
-	    board2 === undefined)				return false;
-	if (board1.length !== board2.length)    return false;
+	if (board1 === null || board2 === null)           return false;
+	if (board1 === undefined || board2 === undefined) return false;
+	if (board1.length !== board2.length)              return false;
 	for (var i = 0; i < board1.length; i++) {
-		if (board1[i] !== board2[i]) 		return false;
+		if (board1[i] !== board2[i]) 		          return false;
 	}
 	return true;
 }
