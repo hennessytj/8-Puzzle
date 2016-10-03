@@ -4,12 +4,14 @@
 // Puzzle of size 9 is really a 3x3 board
 var PuzzleSize = 9;
 var nodesGenerated = 0;
+
 // Board configurations represent state
 var goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
-var init = [2, 4, 3, 1, 0, 6, 7, 5, 8];
-//var init = [4, 2, 3, 6, 0, 1, 7, 5, 8];
+//var init = [2, 4, 3, 1, 0, 6, 7, 5, 8];
+var init = [4, 2, 3, 6, 0, 1, 7, 5, 8];
 //var init = [0, 8, 7, 6, 5, 4, 3, 2, 1];
-
+//var init = [8, 0, 6, 7, 5, 4, 3, 1, 2];
+//var init = [0, 1, 3, 4, 2, 5, 7, 8, 6];
 /*  
     Initial         Goal
     2 4 3           1 2 3
@@ -160,7 +162,7 @@ function bestFirstSearch(problem) {
 		var node = frontier.remove();
 		numNodesExplored++;
 		if (inExplored(node.currBoard)) continue;
-		//printBoard(node.currBoard);
+		printBoard(node.currBoard);
 		exploredStates.push(node.currBoard);
 		if (isGoalState(node.currBoard)) { 
 			console.log("Nodes explored  = " + numNodesExplored); 
