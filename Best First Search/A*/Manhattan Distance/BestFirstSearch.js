@@ -8,9 +8,9 @@ var nodesGenerated = 0;
 // Board configurations represent state
 var goal = [1, 2, 3, 4, 5, 6, 7, 8, 0];
 //var init = [2, 4, 3, 1, 0, 6, 7, 5, 8];
-var init = [4, 2, 3, 6, 0, 1, 7, 5, 8];
+//var init = [4, 2, 3, 6, 0, 1, 7, 5, 8];
 //var init = [0, 8, 7, 6, 5, 4, 3, 2, 1];
-//var init = [8, 0, 6, 7, 5, 4, 3, 1, 2];
+var init = [8, 0, 6, 7, 5, 4, 3, 1, 2];
 //var init = [0, 1, 3, 4, 2, 5, 7, 8, 6];
 // new
 //var init = [0, 3, 1, 2, 4, 5, 7, 8, 6];
@@ -24,6 +24,7 @@ var init = [4, 2, 3, 6, 0, 1, 7, 5, 8];
 */
 
 var exploredStates = [];
+var solution = [];
 
 // Search functions
 // ----------------
@@ -94,6 +95,12 @@ function inExplored(board) {
 	return false;
 }
 
+function inFrontier(board) {
+	for (var i = 1; i <= frontier.N; i++)
+		if (isIdentical(frontier.MinPQ[i].currBoard, board)) return true;
+	return false;
+}
+
 // expand -> take a board and generate all neighbor states (i.e., board configurations)
 // Adapated from Dr. Graham CSC 447 AI
 // Will attempt to move the blank tile left, right, up, and down.  If the move is
@@ -139,9 +146,27 @@ function makeNode(currentBoard, previousBoard, costSoFar) {
 function addNeighborsToFrontier(node) {
 	var neighborStates = expand(node.currBoard);
 	for (var i = 0; i < neighborStates.length; i++) {
+		if (inExplored(neighborStates[i])) continue;
+		if (inFrontier(neighborStates[i])) continue;
 		var nextNode = makeNode(neighborStates[i], node.currBoard, node.cost + 1);
 		frontier.insert(nextNode);
 	}
+}
+
+function printSolution(node) {
+	var numMoves = 1;
+	printBoard(node.currBoard);
+	var n = node;
+	while (n.prevBoard !== null) {
+	    for (var i = 0; i < solution.length; i++) {
+		    if (isIdentical(n.prevBoard, solution[i].currBoard)) {
+			    n = solution[i];
+		    }
+		}
+		printBoard(n.currBoard);
+		numMoves++;
+	}
+	console.log("Path length = " + numMoves);
 }
 
 /********************** AIMA GRAPH SEARCH PSEUDOCODE **********************
@@ -168,11 +193,11 @@ function bestFirstSearch(problem) {
 	while (!frontier.isEmpty()) {
 		var node = frontier.remove();
 		numNodesExplored++;
-		if (inExplored(node.currBoard)) continue;
-		printBoard(node.currBoard);
 		exploredStates.push(node.currBoard);
+		solution.push(node);
 		if (isGoalState(node.currBoard)) { 
-			console.log("Nodes explored  = " + numNodesExplored); 
+			printSolution(node);
+			console.log("Nodes expanded  = " + numNodesExplored); 
 			console.log("Nodes generated = " + nodesGenerated);
 			return true; 
 		}
