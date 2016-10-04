@@ -13,8 +13,8 @@ var frontier = {
 			this.back = this.front;
 		}
 		else {
-			var prevNode = this.back;
-			prevNode.next = node;
+			var prevLastNode = this.back;
+			prevLastNode.next = node;
 			this.back = node;
 		}
 		this.N++;		
