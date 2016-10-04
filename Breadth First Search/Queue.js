@@ -25,7 +25,7 @@ var frontier = {
 			var previousBoard = this.front.prevBoard;
 			this.front = this.front.next;                  // Overwrite previous first node
 			this.N--;
-			if (this.front == null) {
+			if (this.front === null) {
 				this.back = null;
 			}
 		 	return makeNode(currentBoard, previousBoard);  // Make new node with value, and next as null
