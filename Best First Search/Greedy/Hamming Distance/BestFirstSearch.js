@@ -189,7 +189,7 @@ function bestFirstSearch(problem) {
 		solution.push(node);
 		if (isGoalState(node.currBoard)) { 
 			printSolution(node);
-			console.log("Nodes explored  = " + numNodesExplored); 
+			console.log("Nodes expanded  = " + numNodesExplored); 
 			console.log("Nodes generated = " + nodesGenerated);
 			return true; 
 		}
