@@ -1,4 +1,4 @@
-// Dependencies: Queue.js
+// Dependencies: Stack.js
 
 // Variables with global scope
 // Puzzle of size 9 is really a 3x3 board
