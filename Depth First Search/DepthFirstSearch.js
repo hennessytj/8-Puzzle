@@ -174,7 +174,7 @@ function GRAPH-SEARCH(problem) returns a solution, or failure
     only if not in the frontier or explored set
 ****************************************************************************/
 // problem is the initial state (aka board configuration)
-function breadthFirstSearch(problem) {
+function depthFirstSearch(problem) {
     var numNodesExplored = 0;
 	if (!isSolvable(problem)) {
 		console.log("Unsolvable!");
@@ -198,5 +198,5 @@ function breadthFirstSearch(problem) {
 }
 
 // Test BFS function
-breadthFirstSearch(init);
+depthFirstSearch(init);
 
